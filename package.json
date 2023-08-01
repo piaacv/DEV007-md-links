@@ -1,7 +1,13 @@
 {
   "name": "md-links",
+  "description": "CLI tool that help you to search links",
   "author": "Pía Carreño",
   "version": "0.1.0",
+  "main": "index.js",
+  "bin": {
+    "mdLinks": "index.js"
+  },
+
   "engines": {
     "node": ">=16.x"
   },
@@ -15,3 +21,4 @@
     "node-fetch": "^2.6.4"
   }
 }
+
