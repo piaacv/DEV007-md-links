@@ -20,16 +20,20 @@ const mdLinks = (route, options = { stats: false, validate: false }) => {
 
     try {
       const stats = fs.statSync(routeAbsolute);
-// is it a file or a folder?
+      // is it a file or a folder?
       if (stats.isDirectory()) {
         reject("Should be a file, not a folder");
+        return;
+      }
+      if (!stats.isFile()) {
+        reject("Not a valid file");
         return;
       }
     } catch (err) {
       reject(err);
       return;
     }
-// is it a md extentions?
+    // is it a md extentions?
     const extention = path.extname(routeAbsolute);
     if (extention !== ".md") {
       reject(`Should be a .md file not ${extention}`);
@@ -42,12 +46,14 @@ const mdLinks = (route, options = { stats: false, validate: false }) => {
 
     if (!options.validate && !options.stats) {
       // Show detail of links
-      console.log(`The file has the following links:`)
-      linksExtractedFound.forEach((link, index) => {
-        console.log(`Link ${index + 1}:`);
-        console.log(`Text: ${link.text}`);
-        console.log(`URL: ${link.url}`);
+      const linkDetails = linksExtractedFound.map((link, index) => {
+        return `
+         Link ${index + 1}:
+         Text: ${link.text}
+         URL: ${link.url}
+        `;
       });
+      console.log(`The file has the following links:\n${linkDetails.join("\n")}`);
       resolve("Success");
       return;
     }
@@ -63,13 +69,16 @@ const mdLinks = (route, options = { stats: false, validate: false }) => {
           console.log("stats:", stats(validatedLinks));
         } else {
           // Show validation
-          validatedLinks.forEach((validatedLink, index) => {
-            console.log(`Link ${index + 1}:`);
-            console.log(`Text: ${validatedLink.text}`);
-            console.log(`URL: ${validatedLink.url}`);
-            console.log(`Status: ${validatedLink.status}`);
-            console.log(`OK: ${validatedLink.ok}`);
+          const validationMessages = validatedLinks.map((validatedLink, index) => {
+            return `
+             Link ${index + 1}:
+             Text: ${validatedLink.text}
+             URL: ${validatedLink.url}
+             Status: ${validatedLink.status}
+             OK: ${validatedLink.ok}
+            `;
           });
+          console.log(validationMessages.join("\n"));
         }
 
         resolve("Success");
@@ -83,5 +92,3 @@ const mdLinks = (route, options = { stats: false, validate: false }) => {
 module.exports = {
   mdLinks,
 };
-
-
