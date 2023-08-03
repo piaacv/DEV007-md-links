@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "main": "index.js",
   "bin": {
-    "mdLinks": "index.js"
+    "mdLinks": "mdlinks.js"
   },
 
   "engines": {
@@ -15,6 +15,10 @@
     "createdAt": "2023-06-20T14:05:58.211Z",
     "version": "6.3.0",
     "commit": "e129ade681adff8cbb19f82e63f688fef2f08f32"
+  },
+  "scripts": {
+    "test": "jest --coverage --detectOpenHandles",
+    "start": "node mdlinks.js"
   },
   "dependencies": {
     "jest": "^29.6.1",
